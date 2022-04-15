@@ -34,6 +34,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SOLDIER_DEBUG")
 	UStaticMeshComponent* AimHitSign;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SOLDIER_DEBUG")
+	UStaticMeshComponent* SoldierBody;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SOLDIER_DEBUG")
+	UStaticMeshComponent* SoldierHead;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

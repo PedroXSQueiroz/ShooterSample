@@ -38,6 +38,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SHOOTER_CONTROLLER")
 	float MinVisionPitch;
 
+	FVector GetSoldierPosition();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

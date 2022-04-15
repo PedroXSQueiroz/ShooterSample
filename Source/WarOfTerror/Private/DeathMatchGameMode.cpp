@@ -9,6 +9,7 @@
 #include "SoldierFactory.h"
 #include "Soldier.h"
 
+
 void ADeathMatchGameMode::BeginPlay() 
 {
 	Super::BeginPlay();
@@ -21,5 +22,5 @@ void ADeathMatchGameMode::BeginPlay()
 	this->Controller->SetWorldLocation(FVector(0, 0, 20));
 	
 	this->Controller->SetSoldier(currentPlayerSoldier);
-	
+
 }

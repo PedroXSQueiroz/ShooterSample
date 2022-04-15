@@ -40,6 +40,32 @@ ASoldier::ASoldier()
 		this->AimHitSign->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		this->AimHitSign->SetRelativeScale3D(FVector(0.1, 0.1, 0.1));
 	}
+
+	this->SoldierBody = this->CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SOLDIER_BODY"));
+	this->SoldierBody->SetupAttachment(this->RootComponent);
+
+	ConstructorHelpers::FObjectFinder<UStaticMesh> BodyMeshAsset(TEXT("StaticMesh'/Game/StarterContent/Shapes/Shape_NarrowCapsule.Shape_NarrowCapsule'"));
+
+	if (BodyMeshAsset.Succeeded())
+	{
+		this->SoldierBody->SetStaticMesh(BodyMeshAsset.Object);
+		this->SoldierBody->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		this->SoldierBody->SetRelativeScale3D(FVector(0.25, 0.25, 0.25));
+		this->SoldierBody->SetRelativeLocation(FVector(0, 0, -20));
+	}
+
+	this->SoldierHead = this->CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SOLDIER_HEAD"));
+	this->SoldierHead->SetupAttachment(this->RootComponent);
+
+	ConstructorHelpers::FObjectFinder<UStaticMesh> HeadMeshAsset(TEXT("StaticMesh'/Game/StarterContent/Shapes/Shape_QuadPyramid.Shape_QuadPyramid'"));
+
+	if (HeadMeshAsset.Succeeded())
+	{
+		this->SoldierHead->SetStaticMesh(HeadMeshAsset.Object);
+		this->SoldierHead->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		this->SoldierHead->SetRelativeScale3D(FVector(0.1, 0.1, 0.1));
+		this->SoldierHead->SetRelativeRotation(FRotator(-90, 0, 0));
+	}
 }
 
 // Called when the game starts or when spawned
@@ -64,10 +90,20 @@ void ASoldier::Tick(float DeltaTime)
 		currentTransformDelta.SetRotation(this->Rotation.Quaternion());
 
 		this->CollisionCapsule->AddLocalTransform(currentTransformDelta);
+
+		this->Movement.X = 0;
+		this->Movement.Y = 0;
+		this->Movement.Z = 0;
 	}
+
 
 	this->UpdateAimTarget();
 
+	FRotator headRotation = UKismetMathLibrary::FindLookAtRotation(this->SoldierHead->GetComponentLocation(), *this->AimTarget);
+
+	this->SoldierHead->SetWorldRotation(headRotation);
+	this->SoldierHead->AddRelativeRotation(FRotator(-90, 0, 0));
+	
 	this->AimHitSign->SetWorldLocation(*this->GetAimTarget());
 }
 

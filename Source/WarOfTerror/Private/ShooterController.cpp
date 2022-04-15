@@ -102,16 +102,22 @@ void AShooterController::PitchVision(float angle)
 
 void AShooterController::AddXMovement(float xMovement) 
 {
-	this->MoveDirection.X = xMovement  ;
+	this->MoveDirection.X = xMovement;
 
-	this->Soldier->Move( this->GetVelocityFromMoveDirection() , FMath::Atan2( this->MoveDirection.X, this->MoveDirection.Y) );
+	float currentMovementAngle = FMath::Atan2(this->MoveDirection.X, this->MoveDirection.Y);
+
+	UE_LOG(LogTemp, Log, TEXT("`Current angle movement %f"), currentMovementAngle);
+	
+	this->Soldier->Move( this->GetVelocityFromMoveDirection() , currentMovementAngle );
 }
 
 void AShooterController::AddYMovement(float yMovement)
 {
 	this->MoveDirection.Y = yMovement;
 
-	this->Soldier->Move( this->GetVelocityFromMoveDirection() , FMath::Atan2( this->MoveDirection.X, this->MoveDirection.Y ) );
+	float currentMovementAngle = FMath::Atan2(this->MoveDirection.X, this->MoveDirection.Y);
+
+	this->Soldier->Move( this->GetVelocityFromMoveDirection() , currentMovementAngle );
 }
 
 float AShooterController::GetVelocityFromMoveDirection()
@@ -126,4 +132,9 @@ float AShooterController::GetVelocityFromMoveDirection()
 void AShooterController::ToggleSoldierShoot() 
 {
 	this->Soldier->ToggleShoot();
+}
+
+FVector AShooterController::GetSoldierPosition() 
+{
+	return this->Soldier->GetRootComponent()->GetComponentLocation();
 }
